@@ -1,0 +1,61 @@
+import pygame
+import sys
+
+pygame.init()
+
+# Tetapan Skrin
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Sawit Nusantara Tycoon")
+
+# Warna & Font
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+font = pygame.font.Font(None, 40)
+
+def input_name_screen():
+    player_name = ""
+    input_active = True
+    
+    while input_active:
+        screen.fill(WHITE)
+        
+        # Paparan Teks
+        txt_surface = font.render("Masukkan Nama Pengurus: " + player_name, True, BLACK)
+        screen.blit(txt_surface, (150, 250))
+        
+        instructions = font.render("Tekan ENTER untuk mula", True, (100, 100, 100))
+        screen.blit(instructions, (220, 350))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    input_active = False # Tamat fasa input
+                elif event.key == pygame.K_BACKSPACE:
+                    player_name = player_name[:-1]
+                else:
+                    player_name += event.unicode
+        
+        pygame.display.flip()
+    
+    return player_name
+
+# --- MAIN GAME LOOP ---
+name = input_name_screen()
+print(f"Memulakan game untuk: {name}")
+
+# Seterusnya, masukkan logik game anda di sini...
+while True:
+    screen.fill((34, 139, 34)) # Warna Hijau Ladang
+    label = font.render(f"Ladang Pengurus: {name}", True, WHITE)
+    screen.blit(label, (20, 20))
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+            
+    pygame.display.flip()
